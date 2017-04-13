@@ -1,23 +1,36 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-  <head>
-  <script src="https://rawgit.com/CreateJS/PreloadJS/master/lib/preloadjs-NEXT.combined.js"></script>
-  <script src="https://rawgit.com/CreateJS/EaselJS/master/lib/easeljs-NEXT.combined.js"></script>
-  <script src="https://rawgit.com/CreateJS/TweenJS/master/lib/tweenjs-NEXT.combined.js"></script>
-  <script src="http://code.createjs.com/soundjs-0.5.2.min.js"></script>
-  <script src="GameLogic.js"></script>
-  </head>
-  <style type="text/css">
-canvas
-{
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-}
-</style>
-  <body onload="load()">
-    <canvas id="myCanvas" width="550" height="715"></canvas>
-  </body>
+	<head>
+		<title>Star Wars Shooter</title>
+		<style>
+			canvas {
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				background: transparent;
+			}
+			#background {
+				z-index: -2;
+			}
+			#main {
+				z-index: -1;
+			}
+			#ship {
+				z-index: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- The canvas for the panning background -->
+		<canvas id="background" width="960" height="540">
+			Your browser does not support canvas. Please try again with a different browser.
+		</canvas>
+		<!-- The canvas for all enemy ships and bullets -->
+		<canvas id="main" width="960" height="540">
+		</canvas>
+		<!-- The canvas the ship uses -->
+		<canvas id="ship" width="960" height="540">
+		</canvas>
+		<script src="GameLogic.js"></script>
+	</body>
 </html>
