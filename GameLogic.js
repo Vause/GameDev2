@@ -53,9 +53,9 @@ var imageRepository = new function()
 	// Set images source
 	this.background.src = "img/bg.png";
 	this.spaceship.src = "img/xWing1.png";
-	this.bullet.src = "img/heroBullet.png";
+	this.bullet.src = "img/enemyBullet.png";
 	this.enemy.src = "img/enemyShip1.png";
-	this.enemyBullet.src = "img/enemyBullet.png";
+	this.enemyBullet.src = "img/greenBullet.png";
 	
 	
 }
@@ -281,17 +281,17 @@ function Ship()
 				this.x -= this.speed
 				if (this.x <= 0) // Keep player within the screen
 					this.x = 0;
-			} else if (KEY_STATUS.right) 
+			} if (KEY_STATUS.right) 
 			{
 				this.x += this.speed
 				if (this.x >= this.canvasWidth - this.width)
 					this.x = this.canvasWidth - this.width;
-			} else if (KEY_STATUS.up) 
+			} if (KEY_STATUS.up) 
 			{
 				this.y -= this.speed
 				if (this.y <= this.canvasHeight/4*3)
 					this.y = this.canvasHeight/4*3;
-			} else if (KEY_STATUS.down) 
+			} if (KEY_STATUS.down) 
 			{
 				this.y += this.speed
 				if (this.y >= this.canvasHeight - this.height)
