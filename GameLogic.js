@@ -1,5 +1,6 @@
 //Initialize Game and start it
 var game = new Game();
+var percentFireCon = 0;
 
 function init()
 {
@@ -7,6 +8,20 @@ function init()
 		game.start();
 }
 
+function setEasy() {
+    alert("easy");
+    percentFireCon = .5;
+}
+
+function setMed() {
+    alert("med");
+    percentFireCon = 1;
+}
+
+function setHard() {
+    alert("hard");
+    percentFireCon = 3;
+}
 
  //Object to hold all of our images. This ensures all objects are only created once.
 var imageRepository = new function()

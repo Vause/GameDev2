@@ -1,12 +1,10 @@
 
  //Enemy ship object
 function Enemy()
-{
-	var percentFire = .1;
+{	
 	var chance = 0;
 	this.alive = false;
-
-
+	var percentFire;
 
 	this.spawn = function(x, y, speed)
 	{
@@ -17,7 +15,7 @@ function Enemy()
 		this.speedY = speed;
 		this.alive = true;
 		this.leftEdge = this.x - 150;
-		this.rightEdge = this.x + 420;
+		this.rightEdge = this.x + 525;
 		this.bottomEdge = 525;
 	};
 
@@ -25,6 +23,7 @@ function Enemy()
 	 //Move enemy
 	this.draw = function()
 	{
+	    percentFire = percentFireCon;
 		this.context.clearRect(this.x-1, this.y, this.width+1, this.height); //Dirty Rectangle
 		this.x += this.speedX;
 		this.y += this.speedY;
@@ -58,7 +57,7 @@ function Enemy()
 	 //Fire the bullet
 	this.fire = function()
 	{
-		game.enemyBulletPool.get(this.x+this.width/2, this.y+this.height, -2.5);
+		game.enemyBulletPool.get(this.x+this.width/2, this.y+this.height, -5);
 	}
 
 
