@@ -2,7 +2,7 @@
  //Enemy ship object
 function Enemy()
 {
-	var percentFire;
+	var percentFire = .1;
 	var chance = 0;
 	this.alive = false;
 
@@ -48,7 +48,6 @@ function Enemy()
 
 		// Enemy has a chance to shoot every movement
 		//Possible TODO: Change percentages based on difficulty
-		chance = ;
 		if (Math.floor(Math.random()*100) < percentFire)
 		{
 			this.fire();
