@@ -35,7 +35,14 @@ function Bullet(object)
 			}
 			else if (self === "enemyBullet")
 			{
-				this.context.drawImage(imageRepository.enemyBullet, this.x, this.y);
+                if(this.x > game.ship.x+1 && this.x < game.ship.x+47 && this.y < game.ship.y+30 && this.y > game.ship.y){
+                    game.health--;
+                    game.healthDispVar.rightHit();
+                    return true;
+                }
+				else{
+                    this.context.drawImage(imageRepository.enemyBullet, this.x, this.y);
+                }
 			}
 
 			return false;

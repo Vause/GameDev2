@@ -32,9 +32,17 @@ var imageRepository = new function()
 	this.bullet = new Image();
 	this.enemy = new Image();
 	this.enemyBullet = new Image();
+	this.fullgreendisplay = new Image();
+    this.fullreddisplay = new Image();
+    this.leftmidreddisplay = new Image();
+    this.leftreddisplay = new Image();
+    this.leftrightreddisplay = new Image();
+    this.midreddisplay = new Image();
+    this.rightmidreddisplay = new Image();
+    this.rightreddisplay = new Image();
 
 	// Ensure all images have loaded before starting the game
-	var numImages = 5;
+	var numImages = 6;
 	var numLoaded = 0;
 	function imageLoaded()
 	{
@@ -64,6 +72,10 @@ var imageRepository = new function()
 	{
 		imageLoaded();
 	}
+    this.fullgreendisplay.onload = function()
+    {
+        imageLoaded();
+    }
 
 	// Set images source
 	this.background.src = "img/bg.png";
@@ -71,6 +83,14 @@ var imageRepository = new function()
 	this.bullet.src = "img/enemyBullet.png";
 	this.enemy.src = "img/enemyShip1.png";
 	this.enemyBullet.src = "img/greenBullet.png";
+	this.fullgreendisplay.src = "img/HPDisp/FullGreen.png";
+    this.fullreddisplay.src = "img/HPDisp/FullRed.png";
+    this.leftmidreddisplay.src = "img/HPDisp/LeftMidRed.png";
+    this.leftreddisplay.src = "img/HPDisp/LeftRed.png";
+    this.leftrightreddisplay.src = "img/HPDisp/LeftRightRed.png";
+    this.midreddisplay.src = "img/HPDisp/MidRed.png";
+    this.rightmidreddisplay.src = "img/HPDisp/RightMidRed.png";
+    this.rightreddisplay.src = "img/HPDisp/RightRed.png";
 
 
 }
@@ -104,7 +124,6 @@ function Drawable()
  //Game object. Will hold all objects & data for game
 function Game()
 {
-
 	 //Sets up game objects. Gets canvas information and context.
 	 //Returns true if canvas is supported.
 	this.init = function()
@@ -112,6 +131,7 @@ function Game()
 		this.bgCanvas = document.getElementById('background');
 		this.shipCanvas = document.getElementById('ship');
 		this.mainCanvas = document.getElementById('main');
+		this.hpCanvas = document.getElementById('hpdisp');
 
 		// Test to see if canvas is supported. Only need to check one canvas
 		if (this.bgCanvas.getContext)
@@ -134,12 +154,20 @@ function Game()
 			Bullet.prototype.canvasHeight = this.mainCanvas.height;
 
 			Enemy.prototype.context = this.mainContext;
-			Enemy.prototype.canvasWidth = this.mainCanvas.width;
-			Enemy.prototype.canvasHeight = this.mainCanvas.height;
+            Enemy.prototype.canvasWidth = this.mainCanvas.width;
+            Enemy.prototype.canvasHeight = this.mainCanvas.height
+
+            HealthDisplay.prototype.context = this.shipContext;
+            HealthDisplay.prototype.canvasWidth = this.shipCanvas.width;
+            HealthDisplay.prototype.canvasHeight = this.shipCanvas.height;
 
 			// Initialize the background object
 			this.background = new Background();
 			this.background.init(0,0); // Set draw point to 0,0
+
+            this.healthDispVar = new HealthDisplay();
+            this.healthDispVar.drawFirst();
+
 
 			// Initialize the ship object
 			this.ship = new Ship();
@@ -154,6 +182,7 @@ function Game()
 			// Initialize the enemy pool object
 			this.enemyPool = new Pool(10);
 			this.enemyPool.init("enemy");
+			this.health = 10;
 			var height = imageRepository.enemy.height;
 			var width = imageRepository.enemy.width;
 			var x = 100;
@@ -166,7 +195,7 @@ function Game()
 				y += height + 45;
 			}
 
-			this.enemyBulletPool = new Pool(50);
+			this.enemyBulletPool = new Pool(200);
 			this.enemyBulletPool.init("enemyBullet");
 
 			return true;
@@ -188,11 +217,16 @@ function Game()
  //Animation loop. Calls RequestAnimFrame to optimize game loop.
 function animate()
 {
-	requestAnimFrame( animate );
-	game.background.draw();
-	game.ship.move();
-	game.ship.bulletPool.animate();
-	game.enemyPool.animate();
-	game.enemyBulletPool.animate();
+	if(game.ship.isAlive()){
+        requestAnimFrame( animate );
+        game.background.draw();
+        game.ship.move();
+        game.ship.bulletPool.animate();
+        game.enemyPool.animate();
+        game.enemyBulletPool.animate();
+	}
+	else{
+		alert("Game Over");
+	}
 }
 

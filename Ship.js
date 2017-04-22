@@ -12,6 +12,16 @@ function Ship()
 	{
 		this.context.drawImage(imageRepository.spaceship, this.x, this.y); //Dirty Rectangle
 	};
+
+	this.isAlive = function() {
+        if(game.health <= 0){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
 	this.move = function()
 	{
 		counter++;
@@ -31,17 +41,20 @@ function Ship()
 				this.x -= this.speed
 				if (this.x <= 0) // Keep player within the screen
 					this.x = 0;
-			} if (KEY_STATUS.right)
+			}
+			if (KEY_STATUS.right)
 			{
 				this.x += this.speed
 				if (this.x >= this.canvasWidth - this.width)
 					this.x = this.canvasWidth - this.width;
-			} if (KEY_STATUS.up)
+			}
+			if (KEY_STATUS.up)
 			{
 				this.y -= this.speed
 				if (this.y <= this.canvasHeight/4*3)
 					this.y = this.canvasHeight/4*3;
-			} if (KEY_STATUS.down)
+			}
+			if (KEY_STATUS.down)
 			{
 				this.y += this.speed
 				if (this.y >= this.canvasHeight - this.height)

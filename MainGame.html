@@ -10,13 +10,16 @@
 				background: transparent;
 			}
 			#background {
-				z-index: -2;
+				z-index: -3;
 			}
 			#main {
-				z-index: -1;
+				z-index: -2;
 			}
 			#ship {
-				z-index: 0;
+				z-index: -1;
+			}
+			#hpdisp{
+				z-index: 0
 			}
 		</style>
 	</head>
@@ -31,6 +34,7 @@
 		<!-- The canvas the ship uses -->
 		<canvas id="ship" width="960" height="540">
 		</canvas>
+		<script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
 		<script src="GameLogic.js"></script>
 		<script src="Background.js"></script>
 		<script src="Bullet.js"></script>
@@ -38,6 +42,7 @@
 		<script src="KeyAndWindow.js"></script>
 		<script src="Pool.js"></script>
 		<script src="Ship.js"></script>
+		<script src="HealthDisplay.js"></script>
 	</body>
 	<br>
 	<br>
