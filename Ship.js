@@ -6,21 +6,15 @@ function Ship()
 	this.bulletPool = new Pool(30);
 	this.bulletPool.init("bullet");
 	var fireRate = 15;
-	var counter = 0;
+    var counter = 0;
+
+    this.isAlive = true;
 
 	this.draw = function()
 	{
 		this.context.drawImage(imageRepository.spaceship, this.x, this.y); //Dirty Rectangle
 	};
 
-	this.isAlive = function() {
-        if(game.health <= 0){
-            return false;
-        }
-        else{
-            return true;
-        }
-    }
 
 	this.move = function()
 	{
@@ -71,6 +65,36 @@ function Ship()
 			counter = 0;
 		}
 	};
+
+	this.leftHit = function () {
+        if (leftHit == false) {
+            leftHit = true;
+            game.healthDispVar.leftHit();
+        }
+        else if (leftHit == true) {
+            this.isAlive = false;
+        }
+    };
+
+	this.rightHit = function () {
+         if (rightHit == false){
+             rightHit = true;
+             game.healthDispVar.rightHit();
+         }
+         else if(rightHit == true){
+             this.isAlive = false;
+         }
+     };
+
+	this.midHit = function () {
+		if (midHit == false){
+            midHit = true;
+            game.healthDispVar.midHit();
+        }
+        else if(midHit == true){
+            this.isAlive = false;
+        }
+    };
 
 
 //Fires two bullets

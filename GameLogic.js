@@ -1,6 +1,9 @@
 //Initialize Game and start it
 var game = new Game();
 var percentFireCon = 0;
+var rightHit = false
+var leftHit = false;
+var midHit = false;
 
 function init()
 {
@@ -139,6 +142,7 @@ function Game()
 			this.bgContext = this.bgCanvas.getContext('2d');
 			this.shipContext = this.shipCanvas.getContext('2d');
 			this.mainContext = this.mainCanvas.getContext('2d');
+            this.hpContext = this.mainCanvas.getContext('2d');
 
 			// Initialize objects to contain their context and canvas information
 			Background.prototype.context = this.bgContext;
@@ -157,9 +161,9 @@ function Game()
             Enemy.prototype.canvasWidth = this.mainCanvas.width;
             Enemy.prototype.canvasHeight = this.mainCanvas.height
 
-            HealthDisplay.prototype.context = this.shipContext;
-            HealthDisplay.prototype.canvasWidth = this.shipCanvas.width;
-            HealthDisplay.prototype.canvasHeight = this.shipCanvas.height;
+            HealthDisplay.prototype.context = this.hpContext;
+            HealthDisplay.prototype.canvasWidth = this.hpCanvas.width;
+            HealthDisplay.prototype.canvasHeight = this.hpCanvas.height;
 
 			// Initialize the background object
 			this.background = new Background();
@@ -217,7 +221,7 @@ function Game()
  //Animation loop. Calls RequestAnimFrame to optimize game loop.
 function animate()
 {
-	if(game.ship.isAlive()){
+	if(game.ship.isAlive == true){
         requestAnimFrame( animate );
         game.background.draw();
         game.ship.move();
@@ -225,7 +229,7 @@ function animate()
         game.enemyPool.animate();
         game.enemyBulletPool.animate();
 	}
-	else{
+	else if(game.ship.isAlive == false){
 		alert("Game Over");
 	}
 }
