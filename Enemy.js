@@ -1,7 +1,7 @@
 
  //Enemy ship object
 function Enemy()
-{	
+{
 	var chance = 0;
 	this.alive = false;
 	var percentFire;
@@ -10,12 +10,12 @@ function Enemy()
 	{
 		this.x = x;
 		this.y = y;
-		this.speed = speed;
-		this.speedX = 0;
+		this.speed = 5;
+		this.speedX = 10;
 		this.speedY = speed;
 		this.alive = true;
 		this.leftEdge = this.x - 150;
-		this.rightEdge = this.x + 525;
+		this.rightEdge = this.x + 300;
 		this.bottomEdge = 525;
 	};
 
@@ -37,8 +37,8 @@ function Enemy()
 		}
 		else if (this.y >= this.bottomEdge)
 		{
-			this.speed = 1;
-			this.speedX = 1;
+			this.speed = Math.random()*2;
+			this.speedX = Math.random()*2;
 			this.y = 0;
 			this.speedY = 0.5;
 		}

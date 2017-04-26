@@ -4,6 +4,7 @@ var percentFireCon = 0;
 var rightHit = false
 var leftHit = false;
 var midHit = false;
+var enemyTimer = 0;
 
 function init()
 {
@@ -184,21 +185,20 @@ function Game()
 			               imageRepository.spaceship.height);
 
 			// Initialize the enemy pool object
-			this.enemyPool = new Pool(10);
+			this.enemyPool = new Pool(50);
 			this.enemyPool.init("enemy");
 			this.health = 10;
 			var height = imageRepository.enemy.height;
 			var width = imageRepository.enemy.width;
-			var x = 100;
-			var y = -250;
+			var x = 10;
+			var y = 700;
 			var spacer = y * 5.5;
 			for (var i = 1; i <= 10; i++)
 			{
-				this.enemyPool.get(x,y,1);
-				x += width + 10;
-				y += height + 45;
+				this.enemyPool.get(x, y, Math.random()*2);
+				x+=50;
+				this.enemyPool.animate();
 			}
-
 			this.enemyBulletPool = new Pool(200);
 			this.enemyBulletPool.init("enemyBullet");
 
@@ -222,6 +222,7 @@ function Game()
 function animate()
 {
 	if(game.ship.isAlive == true){
+		enemyTimer++;
         requestAnimFrame( animate );
         game.background.draw();
         game.ship.move();
