@@ -127,6 +127,7 @@ function Drawable()
  //Game object. Will hold all objects & data for game
 function Game()
 {
+	this.playerScore = 0;
 	 //Sets up game objects. Gets canvas information and context.
 	 //Returns true if canvas is supported.
 	this.init = function()
@@ -235,6 +236,7 @@ function animate()
         game.ship.bulletPool.animate();
         game.enemyPool.animate();
         game.enemyBulletPool.animate();
+		document.getElementById('score').innerHTML = game.playerScore;
 	}
 	else if(game.ship.isAlive == false){
 		alert("Game Over");
