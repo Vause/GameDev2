@@ -4,7 +4,6 @@ var percentFireCon = 0;
 var rightHit = false
 var leftHit = false;
 var midHit = false;
-var enemyTimer = 0;
 
 function init()
 {
@@ -179,25 +178,33 @@ function Game()
 
 
 			// Set the ship to start near the bottom middle of the canvas
-			var shipStartX = this.shipCanvas.width - 300 - imageRepository.spaceship.width;
+			var shipStartX = this.shipCanvas.width/2 - imageRepository.spaceship.width;
 			var shipStartY = this.shipCanvas.height/4*3 + imageRepository.spaceship.height;
 			this.ship.init(shipStartX, shipStartY, imageRepository.spaceship.width,
 			               imageRepository.spaceship.height);
 
 			// Initialize the enemy pool object
-			this.enemyPool = new Pool(50);
+			this.enemyPool = new Pool(30);
 			this.enemyPool.init("enemy");
 			this.health = 10;
 			var height = imageRepository.enemy.height;
 			var width = imageRepository.enemy.width;
-			var x = 10;
-			var y = 700;
-			var spacer = y * 5.5;
-			for (var i = 1; i <= 10; i++)
+			var randomSpawn = Math.floor((Math.random() * 650) + 100);
+			var randomSpeed = (Math.random() * 2) + 1.5;
+			var x = randomSpawn;
+			var speed = randomSpeed;
+			var y = -height;
+			var spacer = y * 3;
+			for (var i = 1; i <= 18; i++)
 			{
-				this.enemyPool.get(x, y, Math.random()*2);
-				x+=50;
-				this.enemyPool.animate();
+				if (i % 1 == 0) 
+				{
+				this.enemyPool.get(x, y, speed);
+				y += spacer;
+				x = Math.floor((Math.random() * 650) + 100);
+				y += spacer;
+				//y += spacer;
+				}
 			}
 			this.enemyBulletPool = new Pool(200);
 			this.enemyBulletPool.init("enemyBullet");
@@ -222,7 +229,6 @@ function Game()
 function animate()
 {
 	if(game.ship.isAlive == true){
-		enemyTimer++;
         requestAnimFrame( animate );
         game.background.draw();
         game.ship.move();
