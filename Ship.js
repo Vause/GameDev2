@@ -102,8 +102,8 @@ function Ship()
 	//Possible TODO: Increase speed of bullet via another power-up
 	this.fire = function()
 	{
-		this.bulletPool.getTwo(this.x+1, this.y, 6,
-		                       this.x+47, this.y, 6);
+		this.bulletPool.getTwo(this.x+1, this.y, 10,
+		                       this.x+47, this.y, 10);
 	};
 }
 Ship.prototype = new Drawable();

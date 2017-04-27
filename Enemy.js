@@ -12,13 +12,21 @@ function Enemy()
 		this.y = y;
 		this.speed = 1;
 		this.speedX = 0;
-		this.speedY = Math.floor((Math.random() * 2) + 1.5);
+		this.speedY = checkSpeed();
 		this.alive = true;
 		this.leftEdge = this.x - 500;
 		this.rightEdge = this.x + 500;
 		this.bottomEdge = 525;
 	};
 
+	function checkSpeed() {
+	    var speedVar = (Math.floor(Math.random() * 6));
+	    if (Math.abs(speedVar - 1) <= 1)
+	        return 3;
+	    else {
+	        return speedVar;
+	    }
+	};
 
 	 //Move enemy
 	this.draw = function()
@@ -59,7 +67,7 @@ function Enemy()
 	 //Fire the bullet
 	this.fire = function()
 	{
-		game.enemyBulletPool.get(this.x+this.width/2, this.y+this.height, -5);
+		game.enemyBulletPool.get(this.x+this.width/2, this.y+this.height, -10);
 	}
 
 
