@@ -4,6 +4,8 @@ var percentFireCon = 0;
 var rightHit = false
 var leftHit = false;
 var midHit = false;
+var playerScore = 0;
+var bossIsAlive = false;
 
 function init()
 {
@@ -43,6 +45,7 @@ var imageRepository = new function()
     this.midreddisplay = new Image();
     this.rightmidreddisplay = new Image();
     this.rightreddisplay = new Image();
+    this.enemyBoss = new Image();
 
 	// Ensure all images have loaded before starting the game
 	var numImages = 6;
@@ -94,7 +97,7 @@ var imageRepository = new function()
     this.midreddisplay.src = "img/HPDisp/MidRed.png";
     this.rightmidreddisplay.src = "img/HPDisp/RightMidRed.png";
     this.rightreddisplay.src = "img/HPDisp/RightRed.png";
-
+    this.enemyBoss.src = "img/StarDestroyer.png";
 
 }
 
@@ -154,7 +157,7 @@ function QuadTree(boundBox, lvl)
 		objects = [];
 		for (var i = 0; i < this.nodes.length; i++) 
 		{
-			this.nodes[i].clear();
+		    this.nodes[i].clear();		    
 		}
 		this.nodes = [];
 	};
@@ -327,13 +330,13 @@ function QuadTree(boundBox, lvl)
  //Game object. Will hold all objects & data for game
 function Game()
 {
-	this.playerScore = 0;
 	 //Sets up game objects. Gets canvas information and context.
 	 //Returns true if canvas is supported.
 	this.init = function()
 	{
 		this.bgCanvas = document.getElementById('background');
 		this.shipCanvas = document.getElementById('ship');
+		this.enemyBossCanvas = document.getElementById('enemyboss');
 		this.mainCanvas = document.getElementById('main');
 		this.hpCanvas = document.getElementById('hpdisp');
 
@@ -343,7 +346,8 @@ function Game()
 			this.bgContext = this.bgCanvas.getContext('2d');
 			this.shipContext = this.shipCanvas.getContext('2d');
 			this.mainContext = this.mainCanvas.getContext('2d');
-            this.hpContext = this.mainCanvas.getContext('2d');
+			this.hpContext = this.mainCanvas.getContext('2d');
+			this.enemyBossContext = this.enemyBossCanvas.getContext('2d');
 
 			// Initialize objects to contain their context and canvas information
 			Background.prototype.context = this.bgContext;
@@ -360,7 +364,11 @@ function Game()
 
 			Enemy.prototype.context = this.mainContext;
             Enemy.prototype.canvasWidth = this.mainCanvas.width;
-            Enemy.prototype.canvasHeight = this.mainCanvas.height
+            Enemy.prototype.canvasHeight = this.mainCanvas.height;
+
+            EnemyBoss.prototype.context = this.enemyBossContext;
+            EnemyBoss.prototype.canvasWidth = this.mainCanvas.width;
+            EnemyBoss.prototype.canvasHeight = this.mainCanvas.height;
 
             HealthDisplay.prototype.context = this.hpContext;
             HealthDisplay.prototype.canvasWidth = this.hpCanvas.width;
@@ -375,8 +383,7 @@ function Game()
 
 
 			// Initialize the ship object
-			this.ship = new Ship();
-
+            this.ship = new Ship();
 
 			// Set the ship to start near the bottom middle of the canvas
 			var shipStartX = this.shipCanvas.width/2 - imageRepository.spaceship.width;
@@ -387,6 +394,8 @@ function Game()
 			// Initialize the enemy pool object
 			this.enemyPool = new Pool(30);
 			this.enemyPool.init("enemy");
+			this.enemyBossPool = new Pool(1);
+			this.enemyBossPool.init("enemyBoss");
 			this.health = 10;
 			var height = imageRepository.enemy.height;
 			var width = imageRepository.enemy.width;
@@ -396,7 +405,7 @@ function Game()
 			var speed = randomSpeed;
 			var y = -height;
 			var spacer = y * 3;
-			for (var i = 1; i <= 18; i++)
+			for (var i = 1; i <= 1; i++)
 			{
 				if (i % 1 == 0) 
 				{
@@ -406,11 +415,27 @@ function Game()
 				y += spacer;
 				}
 			}
+
+			height = imageRepository.enemyBoss.height;
+			width = imageRepository.enemyBoss.width;
+			x = 200;
+			speed = .1;
+			y = -height;
+			for (var i = 1; i <= 1; i++) {
+			    if (i % 1 == 0) {
+			        this.enemyBossPool.get(x, y, speed);
+			        x = Math.floor((Math.random() * 650) + 100);
+			        y += spacer;
+			    }
+			}
+
 			this.enemyBulletPool = new Pool(200);
 			this.enemyBulletPool.init("enemyBullet");
 			
 			//New Quadtree
-			this.quadTree = new QuadTree({x:0, y:0, width:this.mainCanvas.width, height:this.mainCanvas.height});
+			this.quadTree = new QuadTree({ x: 0, y: 0, width: this.mainCanvas.width, height: this.mainCanvas.height });
+			playerScore = 29;
+
 			return true;
 		} else
 		{
@@ -434,6 +459,7 @@ function animate()
 	game.quadTree.insert(game.ship);
 	game.quadTree.insert(game.ship.bulletPool.getPool());
 	game.quadTree.insert(game.enemyPool.getPool());
+	game.quadTree.insert(game.enemyBossPool.getPool());
 	detectCollision();
 	
 	if(game.ship.isAlive == true){
@@ -441,9 +467,14 @@ function animate()
         game.background.draw();
         game.ship.move();
         game.ship.bulletPool.animate();
-        game.enemyPool.animate();
         game.enemyBulletPool.animate();
-		document.getElementById('score').innerHTML = game.playerScore;
+        document.getElementById('score').innerHTML = playerScore;
+        if (playerScore < 30) {
+            game.enemyPool.animate();
+        }
+        if (playerScore >= 30) {
+            game.enemyBossPool.animate();
+        }
 	}
 	else if(game.ship.isAlive == false){
 		alert("Game Over");

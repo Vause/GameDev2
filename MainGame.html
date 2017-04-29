@@ -10,7 +10,7 @@
 				background: transparent;
 			}
 			#background {
-				z-index: -3;
+				z-index: -4;
 			}
 			#main {
 				z-index: -2;
@@ -20,6 +20,9 @@
 			}
 			#hpdisp{
 				z-index: 0
+			}
+			#enemyboss{
+				z-index: -3
 			}
 			.score {
 				position: absolute;
@@ -41,6 +44,8 @@
 		</canvas>
 		<!-- The canvas the ship uses -->
 		<canvas id="ship" width="810" height="540">
+		</canvas>
+		<canvas id="enemyboss" width="810" height="540">
 		</canvas>
 		<canvas id="hpdisp" width="150" height="120">
 		</canvas>

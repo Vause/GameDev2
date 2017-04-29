@@ -29,6 +29,16 @@ function Pool(maxSize)
 				pool[i] = enemy;
 			}
 		}
+
+		else if (object == "enemyBoss") {
+		    for (var i = 0; i < size; i++) {
+		        var enemyBoss = new EnemyBoss();
+		        enemyBoss.init(0, 0, imageRepository.enemyBoss.width, imageRepository.enemyBoss.height);
+		        pool[i] = enemyBoss;
+		    }
+		}
+
+
 		else if (object == "enemyBullet")
 		{
 			for (var i = 0; i < size; i++)
