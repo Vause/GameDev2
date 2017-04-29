@@ -19,6 +19,11 @@ function Bullet(object)
 	{
 		this.context.clearRect(this.x-1, this.y-1, this.width+1, this.height+1); //Dirty Rectangle
 		this.y -= this.speed;
+		
+		if(this.isColliding)
+		{
+			return true;
+		}
 		if (self === "bullet" && this.y <= 0 - this.height)
 		{
 			return true;
@@ -47,7 +52,8 @@ function Bullet(object)
                     game.ship.rightHit();
                     return true;
                 }
-				else{
+				else
+				{
                     this.context.drawImage(imageRepository.enemyBullet, this.x, this.y);
                 }
 			}
@@ -62,6 +68,7 @@ function Bullet(object)
 		this.y = 0;
 		this.speed = 0;
 		this.alive = false;
+		this.isColliding = false;
 	};
 }
 

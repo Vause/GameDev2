@@ -5,6 +5,8 @@ function Enemy()
 	var chance = 0;
 	this.alive = false;
 	var percentFire;
+	this.collidableWith = "bullet";
+	this.type = "enemy";
 
 	this.spawn = function(x, y, speed)
 	{
@@ -33,7 +35,6 @@ function Enemy()
 	{
 	    percentFire = percentFireCon;
 		this.context.clearRect(this.x-1, this.y, this.width+1, this.height); //Dirty Rectangle
-		//this.x += this.speedX;
 		this.y += this.speedY;
 		if (this.x <= this.leftEdge) {
 			this.speedX = this.speed;
@@ -49,18 +50,27 @@ function Enemy()
 			this.y = 0;
 			this.x = Math.floor((Math.random() * 650) + 100);
 		}
-
+		
+		if(!this.isColliding)
+		{
 		this.context.drawImage(imageRepository.enemy, this.x, this.y);
 
 		// Enemy has a chance to shoot every movement
-		//Possible TODO: Change percentages based on difficulty
+		
 		if(this.y > -5 && this.y < 525) //If enemy ship is within canvas
 		{
 			if (Math.floor(Math.random()*100) < percentFire)
 			{
 				this.fire();
 			}
+			return false;
 		}
+			
+		}
+		else
+			{
+				return true;
+			}
 	};
 
 
@@ -80,6 +90,7 @@ function Enemy()
 		this.speedX = 0;
 		this.speedY = 0;
 		this.alive = false;
+		this.isColliding = false;
 	};
 }
 Enemy.prototype = new Drawable();

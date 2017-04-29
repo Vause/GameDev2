@@ -15,6 +15,8 @@ function Pool(maxSize)
 				// Initalize the object
 				var bullet = new Bullet("bullet");
 				bullet.init(0,0, imageRepository.bullet.width, imageRepository.bullet.height);
+				bullet.collidableWith = "enemy";
+				bullet.type = "bullet";
 				pool[i] = bullet;
 			}
 		}
@@ -59,6 +61,20 @@ function Pool(maxSize)
 			this.get(x2, y2, speed2);
 		}
 	};
+	
+	//Returns all alive objects in pool as an array. Used to insert into Quadtree.
+	this.getPool = function()
+	{
+		var obj = [];
+		for(var i = 0; i< size; i++)
+		{
+			if(pool[i].alive)
+			{
+				obj.push(pool[i]);
+			}
+		}
+		return obj;
+	}
 
 
 	//Draws Bullets that are in use. If a bullet goes off the screen, clears it and pushes it to the front of the array.
