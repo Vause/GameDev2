@@ -32,6 +32,14 @@
 				font-family: Helvetica, sans-serif;
 				cursor: default;
 			}
+			.seconds {
+							position: absolute;
+							top: 25px;
+							left: 10px;
+							color: #FF0000;
+							font-family: Helvetica, sans-serif;
+							cursor: default;
+			}
 		</style>
 	</head>
 	<body>
@@ -50,6 +58,7 @@
 		<canvas id="hpdisp" width="150" height="120">
 		</canvas>
 		<div class="score">SCORE: <span id="score"></span></div>
+		<div class="seconds">HYPERDRIVE READY IN: <span id="seconds"></span></div>
 		<script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
 		<script src="GameLogic.js"></script>
 		<script src="Background.js"></script>

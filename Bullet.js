@@ -28,7 +28,7 @@ function Bullet(object)
 		{
 			return true;
 		}
-		else if (self === "enemyBullet" && this.y >= this.canvasHeight)
+		else if (self === "enemyBullet" && this.y >= 1044)
 		{
 			return true;
 		}

@@ -1,11 +1,12 @@
 //Initialize Game and start it
 var game = new Game();
-var percentFireCon = 0;
+var percentFireCon = .5;
 var rightHit = false
 var leftHit = false;
 var midHit = false;
 var playerScore = 0;
 var bossIsAlive = false;
+var countdown = 7200;
 
 function init()
 {
@@ -405,7 +406,7 @@ function Game()
 			var speed = randomSpeed;
 			var y = -height;
 			var spacer = y * 3;
-			for (var i = 1; i <= 1; i++)
+			for (var i = 1; i <= 30; i++)
 			{
 				if (i % 1 == 0) 
 				{
@@ -418,23 +419,15 @@ function Game()
 
 			height = imageRepository.enemyBoss.height;
 			width = imageRepository.enemyBoss.width;
-			x = 200;
-			speed = .1;
-			y = -height;
-			for (var i = 1; i <= 1; i++) {
-			    if (i % 1 == 0) {
-			        this.enemyBossPool.get(x, y, speed);
-			        x = Math.floor((Math.random() * 650) + 100);
-			        y += spacer;
-			    }
-			}
-
+			x = 100;
+			speed = 1;
+			y = 530;		
+			this.enemyBossPool.get(x, y, speed);
 			this.enemyBulletPool = new Pool(200);
 			this.enemyBulletPool.init("enemyBullet");
 			
 			//New Quadtree
 			this.quadTree = new QuadTree({ x: 0, y: 0, width: this.mainCanvas.width, height: this.mainCanvas.height });
-			playerScore = 29;
 
 			return true;
 		} else
@@ -462,18 +455,38 @@ function animate()
 	game.quadTree.insert(game.enemyBossPool.getPool());
 	detectCollision();
 	
-	if(game.ship.isAlive == true){
+	if (game.ship.isAlive == true) {
+	    countdown -= 1;
         requestAnimFrame( animate );
         game.background.draw();
         game.ship.move();
         game.ship.bulletPool.animate();
         game.enemyBulletPool.animate();
         document.getElementById('score').innerHTML = playerScore;
-        if (playerScore < 30) {
-            game.enemyPool.animate();
+        document.getElementById('seconds').innerHTML = Math.floor(countdown / 60);
+        game.enemyPool.animate();
+        if (countdown == 5000) {
+            var height = imageRepository.enemy.height;
+            var width = imageRepository.enemy.width;
+            var randomSpawn = Math.floor((Math.random() * 650) + 100);
+            var randomSpeed = (Math.random() * 2) + 1.5;
+            var x = randomSpawn;
+            var speed = randomSpeed;
+            var y = -height;
+            var spacer = y * 3;
+            for (var i = 1; i <= 30; i++) {
+                if (i % 1 == 0) {
+                    game.enemyPool.get(x, y, speed);
+                    y += spacer;
+                    x = Math.floor((Math.random() * 650) + 100);
+                    y += spacer;
+                }
+            }
+            bossIsAlive = true;
         }
-        if (playerScore >= 30) {
-            game.enemyBossPool.animate();
+	if (bossIsAlive == true) {
+	    game.enemyBossPool.animate();
+                    
         }
 	}
 	else if(game.ship.isAlive == false){
@@ -496,7 +509,7 @@ function detectCollision()
 				(objects[x].x < obj[y].x + obj[y].width &&
 			     objects[x].x + objects[x].width > obj[y].x &&
 				 objects[x].y < obj[y].y + obj[y].height &&
-				 objects[x].y + objects[x].height > obj[y].y)) 
+				 objects[x].y + objects[x].height > obj[y].y) && objects[x].type!="enemyBoss") 
 				 {
 				objects[x].isColliding = true;
 				obj[y].isColliding = true;

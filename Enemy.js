@@ -97,31 +97,24 @@ function Enemy()
 }
 Enemy.prototype = new Drawable();
 
-
-
-
-
-
-
-
 function EnemyBoss() {
     var chance = 0;
     this.alive = false;
-    var percentFire;
-    this.collidableWith = "bullet";
-    this.type = "enemy";
+    var percentFire = 20;
+    this.collidableWith = null;
+    this.type = "enemyBoss";
     var health = 30;
 
     this.spawn = function (x, y, speed) {
         this.x = x;
         this.y = y;
-        this.speed = 1;
+        this.speed = -.5;
         this.speedX = .5;
-        this.speedY = .5;
+        this.speedY = -.5;
         this.alive = true;
-        this.leftEdge = this.x - 500;
-        this.rightEdge = this.x + 500;
-        this.bottomEdge = 525;
+        this.leftEdge = 0;
+        this.rightEdge = 810;
+        this.bottomEdge = 540;
     };
 
     function checkSpeed() {
@@ -135,32 +128,31 @@ function EnemyBoss() {
 
     //Move enemy
     this.draw = function () {
-        percentFire = 20;
+        percentFire = 5;
         this.context.clearRect(this.x - 1, this.y, this.width + 1, this.height); //Dirty Rectangle
         this.y += this.speedY;
         this.x += this.speedX;
-        console.log(health);
-        if (this.x <= this.leftEdge + this.width) {
+        if (this.x <= 0) {
             this.speedX = .5;
         }
-        else if (this.x >= this.rightEdge - this.width) {
+        else if (this.x >= 810 - this.width) {
             this.speedX = -.5;
 
         }
-        else if (this.y>= 100) {
-            this.speedY = -.5;
-        }
-        else if (this.y <= -200) {
+        else if (this.y <= 0) {
             this.speedY = .5;
         }
-
+        else if (this.y >= 400 && this.y >= 540) {
+            this.speedY = -.5;
+        }
+       
         if (!this.isColliding) {
             this.context.drawImage(imageRepository.enemyBoss, this.x, this.y);
 
 
             // Enemy has a chance to shoot every movement
 
-            if (this.y > -504 && this.y < 525) //If enemy ship is within canvas
+            if (this.y > -540 && this.y < 1044) //If enemy ship is within canvas
             {
                 if (Math.floor(Math.random() * 100) < percentFire) {
                     this.fire();
@@ -169,19 +161,18 @@ function EnemyBoss() {
             }
 
         }
-        else if(this.isColliding && (health > 0)){
-                health -= 1;
-                return false;
-        }
         else {
-                return true;
-            }        
+            return true;
+        }
+
+        
+        
     };
 
 
     //Fire the bullet
     this.fire = function () {
-        game.enemyBulletPool.get(this.x + 70 + Math.random()*this.width/2 , this.y + 100, -10);
+        game.enemyBulletPool.get(this.x + 70 + Math.random()*this.width/2 , this.y+this.height-100, 10);
     }
 
 

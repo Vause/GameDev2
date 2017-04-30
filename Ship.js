@@ -45,8 +45,8 @@ function Ship()
 			if (KEY_STATUS.up)
 			{
 				this.y -= this.speed
-				if (this.y <= this.canvasHeight/4*3)
-					this.y = this.canvasHeight/4*3;
+				if (this.y <= 0)
+				    this.y = 0;
 			}
 			if (KEY_STATUS.down)
 			{
