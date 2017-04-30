@@ -1,6 +1,6 @@
 //Initialize Game and start it
 var game = new Game();
-var percentFireCon = .5;
+var percentFireCon = .1;
 var rightHit = false
 var leftHit = false;
 var midHit = false;
@@ -16,7 +16,7 @@ function init()
 
 function setEasy() {
     alert("easy");
-    percentFireCon = .5;
+    percentFireCon = .25;
 }
 
 function setMed() {
@@ -412,7 +412,7 @@ function Game()
 				{
 				this.enemyPool.get(x, y, speed);
 				y += spacer;
-				x = Math.floor((Math.random() * 650) + 100);
+				x = Math.floor((Math.random() * 650) + 10);
 				y += spacer;
 				}
 			}
@@ -478,7 +478,7 @@ function animate()
                 if (i % 1 == 0) {
                     game.enemyPool.get(x, y, speed);
                     y += spacer;
-                    x = Math.floor((Math.random() * 650) + 100);
+                    x = Math.floor((Math.random() * 650) + 10);
                     y += spacer;
                 }
             }

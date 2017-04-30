@@ -32,6 +32,9 @@ function Bullet(object)
 		{
 			return true;
 		}
+		else if (self === "enemyBullet" && this.y <= -10) {
+		    return true;
+		}
 		else
 		{
 			if (self === "bullet")

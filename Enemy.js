@@ -128,11 +128,11 @@ function EnemyBoss() {
 
     //Move enemy
     this.draw = function () {
-        percentFire = 5;
+        percentFire = 10;
         this.context.clearRect(this.x - 1, this.y, this.width + 1, this.height); //Dirty Rectangle
         this.y += this.speedY;
         this.x += this.speedX;
-        if (this.x <= 0) {
+        if (this.x <= -100) {
             this.speedX = .5;
         }
         else if (this.x >= 810 - this.width) {
