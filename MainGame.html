@@ -60,6 +60,27 @@
 			.game-over span:hover {
 				color: #FFD700;
 			}
+
+			.you-win {
+							position: absolute;
+							top: 200px;
+							left: 300px;
+							color: #FFFF00;
+							font-family: Helvetica, sans-serif;
+							font-size: 30px;
+							cursor: default;
+							display: none;
+						}
+						.you-win span {
+						font-size: 20px;
+						cursor: pointer;
+						position: relative;
+						left: 50px;
+						}
+						.game-over span:hover {
+							color: #FFD700;
+			}
+
 			.medium-mode {
 			position: absolute;
 				top: 200px;
@@ -113,6 +134,7 @@
 		<div class="score">SCORE: <span id="score"></span></div>
 		<div class="seconds">HYPERDRIVE READY IN: <span id="seconds"></span></div>
 		<div class="game-over" id="game-over">GAME OVER<p><span onClick="window.location.reload()">Restart</span></p></div>
+		<div class="you-win" id="you-win">GAME OVER<p><span onClick="window.location.reload()">Restart</span></p></div>
 		<div class="medium-mode" id="medium-mode">Medium Mode</div>
 		<div class="hard-mode" id="hard-mode">Hard Mode</div>
 		<div class="jedi-mode" id="jedi-mode">Jedi Mode</div>
@@ -168,6 +190,10 @@
 	<audio id="bgmusic" controls>
 		<source src="img/backgroundMusic.mp3" type="audio/mpeg">
 		Your browser does not support the audio element.
+	</audio>
+	<audio id="explosion">
+			<source src="img/explosion.mp3" type="audio/mpeg">
+			Your browser does not support the audio element.
 	</audio>
 	<audio id="shipLaser">
 		<source src="img/shipLaser.wav" type="audio/wav">

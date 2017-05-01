@@ -87,6 +87,7 @@ function Enemy()
 	this.clear = function()
 	{
 	    playerScore++;
+	    game.explosionSound.play();
 		this.x = 0;
 		this.y = 0;
 		this.speed = 0;
@@ -174,7 +175,7 @@ function EnemyBoss() {
     //Fire the bullet
     this.fire = function () {
         game.enemyBulletPool.get(this.x + 70 + Math.random()*this.width/2 , this.y+this.height-100, 10);
-        game.enemyBossLaserSound.play();
+        game.explosionSound.play();
     }
 
 
