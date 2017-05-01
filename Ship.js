@@ -15,6 +15,12 @@ function Ship()
 		this.context.drawImage(imageRepository.spaceship, this.x, this.y); //Dirty Rectangle
 	};
 
+	this.drawEscape = function () {	    
+	    this.context.clearRect(this.x, this.y, this.width, this.height);
+	    this.y -= 10;
+	    this.context.drawImage(imageRepository.spaceship, this.x, this.y);
+	}
+
 
 	this.move = function()
 	{
@@ -80,6 +86,7 @@ function Ship()
          if (rightHit == false){
              rightHit = true;
              game.healthDispVar.rightHit();
+             game.ihaveyounowSound.play();
          }
          else if(rightHit == true){
              this.isAlive = false;
@@ -102,8 +109,8 @@ function Ship()
 	//Possible TODO: Increase speed of bullet via another power-up
 	this.fire = function()
 	{
-		this.bulletPool.getTwo(this.x+1, this.y, 10,
-		                       this.x+47, this.y, 10);
+		this.bulletPool.getTwo(this.x+1, this.y, 10, this.x+47, this.y, 10);
+		game.shipLaserSound.play();
 	};
 }
 Ship.prototype = new Drawable();

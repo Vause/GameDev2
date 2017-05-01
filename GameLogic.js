@@ -6,7 +6,8 @@ var leftHit = false;
 var midHit = false;
 var playerScore = 0;
 var bossIsAlive = false;
-var countdown = 7200;
+var countdown = 3600;
+var escapeSequence = false;
 
 function init()
 {
@@ -152,7 +153,7 @@ function Drawable()
 	this.move = function()
 	{
 	};
-	
+
 	//Test to see if object can collide with the provided object
 	this.isCollidableWith = function(object)
 	{
@@ -161,10 +162,10 @@ function Drawable()
 }
 
 //Quadtree. Had to look into this logic for quite a bit of time. Used resources such as html5rocks to get algorithm.
-function QuadTree(boundBox, lvl) 
+function QuadTree(boundBox, lvl)
 {
 	var maxObjects = 10;
-	this.bounds = boundBox || 
+	this.bounds = boundBox ||
 	{
 		x: 0,
 		y: 0,
@@ -177,25 +178,25 @@ function QuadTree(boundBox, lvl)
 	var maxLevels = 5;
 
 	//Clears the Quadtree and all nodes of objects
-	this.clear = function() 
+	this.clear = function()
 	{
 		objects = [];
-		for (var i = 0; i < this.nodes.length; i++) 
+		for (var i = 0; i < this.nodes.length; i++)
 		{
-		    this.nodes[i].clear();		    
+		    this.nodes[i].clear();
 		}
 		this.nodes = [];
 	};
-	
-	
+
+
 	 //Get all objects in Quadtree
-	this.getAllObjects = function(returnedObjects) 
+	this.getAllObjects = function(returnedObjects)
 	{
-		for (var i = 0; i < this.nodes.length; i++) 
+		for (var i = 0; i < this.nodes.length; i++)
 		{
 			this.nodes[i].getAllObjects(returnedObjects);
 		}
-		for (var i = 0, len = objects.length; i < len; i++) 
+		for (var i = 0, len = objects.length; i < len; i++)
 		{
 			returnedObjects.push(objects[i]);
 		}
@@ -204,66 +205,66 @@ function QuadTree(boundBox, lvl)
 	/*
 	 * Return all objects that the object could collide with
 	 */
-	 
+
 	 //Return all objects that the particular object COULD collide with. This will be enemy - > player ship bullet
-	this.findObjects = function(returnedObjects, obj) 
+	this.findObjects = function(returnedObjects, obj)
 	{
-		if (typeof obj === "undefined") 
+		if (typeof obj === "undefined")
 		{
 			console.log("UNDEFINED OBJECT");
 			return;
 		}
 		var index = this.getIndex(obj);
-		if (index != -1 && this.nodes.length) 
+		if (index != -1 && this.nodes.length)
 		{
 			this.nodes[index].findObjects(returnedObjects, obj);
 		}
-		for (var i = 0, len = objects.length; i < len; i++) 
+		for (var i = 0, len = objects.length; i < len; i++)
 		{
 			returnedObjects.push(objects[i]);
 		}
 		return returnedObjects;
 	};
-	 
+
 	 //Insert object into Quadtree. If exceeds capacity, it will split the tree and objects into their corresponding nodes.
-	this.insert = function(obj) 
+	this.insert = function(obj)
 	{
-		if (typeof obj === "undefined") 
+		if (typeof obj === "undefined")
 		{
 			return;
 		}
-		if (obj instanceof Array) 
+		if (obj instanceof Array)
 		{
-			for (var i = 0, len = obj.length; i < len; i++) 
+			for (var i = 0, len = obj.length; i < len; i++)
 			{
 				this.insert(obj[i]);
 			}
 			return;
 		}
-		if (this.nodes.length) 
+		if (this.nodes.length)
 		{
 			var index = this.getIndex(obj);
 			//Add object to a subnode only if it can fit within one
-			if (index != -1) 
+			if (index != -1)
 			{
 				this.nodes[index].insert(obj);
 				return;
 			}
 		}
 		objects.push(obj);
-		
+
 		//Cannot split infinitely
-		if (objects.length > maxObjects && level < maxLevels) 
+		if (objects.length > maxObjects && level < maxLevels)
 		{
-			if (this.nodes[0] == null) 
+			if (this.nodes[0] == null)
 			{
 				this.split();
 			}
 			var i = 0;
-			while (i < objects.length) 
+			while (i < objects.length)
 			{
 				var index = this.getIndex(objects[i]);
-				if (index != -1) 
+				if (index != -1)
 				{
 					this.nodes[index].insert((objects.splice(i,1))[0]);
 				}
@@ -273,42 +274,42 @@ function QuadTree(boundBox, lvl)
 			}
 		}
 	};
-	 
-	 //Determine which node particular object belongs to. 
+
+	 //Determine which node particular object belongs to.
 	 //*** NOTE: -1 means it cannot completely fit within a node, thus it is part of the current node.
-	this.getIndex = function(obj) 
+	this.getIndex = function(obj)
 	{
 		var index = -1;
 		var verticalMidpoint = this.bounds.x + this.bounds.width / 2;
 		var horizontalMidpoint = this.bounds.y + this.bounds.height / 2;
-		
+
 		// Object can fit completely within the top quadrant
 		var topQuadrant = (obj.y < horizontalMidpoint && obj.y + obj.height < horizontalMidpoint);
-		
+
 		// Object can fit completely within the bottom quandrant
 		var bottomQuadrant = (obj.y > horizontalMidpoint);
-		
+
 		// Object can fit completely within the left quadrants
-		if (obj.x < verticalMidpoint && obj.x + obj.width < verticalMidpoint) 
+		if (obj.x < verticalMidpoint && obj.x + obj.width < verticalMidpoint)
 		{
-			if (topQuadrant) 
+			if (topQuadrant)
 			{
 				index = 1;
 			}
-			else if (bottomQuadrant) 
+			else if (bottomQuadrant)
 			{
 				index = 2;
 			}
 		}
-		
+
 		// Object can fix completely within the right quandrants
-		else if (obj.x > verticalMidpoint) 
+		else if (obj.x > verticalMidpoint)
 		{
-			if (topQuadrant) 
+			if (topQuadrant)
 			{
 				index = 0;
 			}
-			else if (bottomQuadrant) 
+			else if (bottomQuadrant)
 			{
 				index = 3;
 			}
@@ -318,9 +319,9 @@ function QuadTree(boundBox, lvl)
 	/*
 	 * Splits the node into 4 subnodes
 	 */
-	 
+
 	 //Splits node into 4 subnodes
-	this.split = function() 
+	this.split = function()
 	{
 		// Bitwise or [html5rocks]
 		var subWidth = (this.bounds.width / 2) | 0;
@@ -359,6 +360,26 @@ function Game()
 	 //Returns true if canvas is supported.
 	this.init = function()
 	{
+		this.musicSound = document.getElementById("bgmusic");
+		this.enemyLaserSound = document.getElementById("enemyLaser");
+		this.lightspeedSound = document.getElementById("lightspeed");
+		this.enemyBossLaserSound = document.getElementById("enemyBossLaser");
+		this.shipLaserSound = document.getElementById("shipLaser");
+		this.intensifySound = document.getElementById("intensify");
+		this.ihaveyounowSound = document.getElementById("ihaveyounow");
+		this.targetsSound = document.getElementById("targets");
+		this.theForceSound = document.getElementById("theForce");
+		this.musicSound.play();
+		this.musicSound.volume = .6;
+		this.shipLaserSound.volume = .6;
+		this.targetsSound.volume = 1;
+		this.ihaveyounowSound.volume = 1;
+		this.intensifySound.volume = 1;
+		this.lightspeedSound.volume = 1;
+		this.enemyLaserSound.volume = .5;
+		this.enemyBossLaserSound.volume = .5;
+		this.theForceSound.volume = 1;
+		this.targetsSound.play();
 		this.bgCanvas = document.getElementById('background');
 		this.shipCanvas = document.getElementById('ship');
 		this.enemyBossCanvas = document.getElementById('enemyboss');
@@ -432,7 +453,7 @@ function Game()
 			var spacer = y * 3;
 			for (var i = 1; i <= 30; i++)
 			{
-				if (i % 1 == 0) 
+				if (i % 1 == 0)
 				{
 				this.enemyPool.get(x, y, speed);
 				y += spacer;
@@ -445,11 +466,11 @@ function Game()
 			width = imageRepository.enemyBoss.width;
 			x = 100;
 			speed = 1;
-			y = 530;		
+			y = 530;
 			this.enemyBossPool.get(x, y, speed);
 			this.enemyBulletPool = new Pool(200);
 			this.enemyBulletPool.init("enemyBullet");
-			
+
 			//New Quadtree
 			this.quadTree = new QuadTree({ x: 0, y: 0, width: this.mainCanvas.width, height: this.mainCanvas.height });
 
@@ -466,7 +487,7 @@ function Game()
 		this.ship.draw();
 		animate();
 	};
-	
+
 }
 
 
@@ -481,7 +502,7 @@ function animate()
 	game.quadTree.insert(game.enemyPool.getPool());
 	game.quadTree.insert(game.enemyBossPool.getPool());
 	detectCollision();
-	
+
 	if (game.ship.isAlive == true) {
 	    countdown -= 1;
         requestAnimFrame( animate );
@@ -492,7 +513,7 @@ function animate()
         document.getElementById('score').innerHTML = playerScore;
         document.getElementById('seconds').innerHTML = Math.floor(countdown / 60);
         game.enemyPool.animate();
-        if (countdown == 5000) {
+        if (countdown == 2000) {
             var height = imageRepository.enemy.height;
             var width = imageRepository.enemy.width;
             var randomSpawn = Math.floor((Math.random() * 650) + 100);
@@ -509,13 +530,30 @@ function animate()
                     y += spacer;
                 }
             }
+            game.intensifySound.play();
             bossIsAlive = true;
         }
-	if (bossIsAlive == true) {
-	    game.enemyBossPool.animate();
-                    
+        if (bossIsAlive == true) {
+	        game.enemyBossPool.animate();
         }
+        if (playerScore == 20) {
+            game.theForceSound.play();
+        }
+        if (countdown == 360) {
+            game.lightspeedSound.play();
+        }
+        if (countdown <= 60) {
+            game.ship.drawEscape();
+            game.ship.counter = 16;
+            game.ship.leftHit = false;
+            game.ship.rightHit = false;
+            game.ship.midHit = false;
+            game.musicSound.volume -= .02;
+        }
+
+
 	}
+
 	else if(game.ship.isAlive == false){
 		document.getElementById('game-over').style.display = "block";
 	}
@@ -525,18 +563,18 @@ function detectCollision()
 {
 	var objects = [];
 	game.quadTree.getAllObjects(objects);
-	
+
 	for(var x = 0, len = objects.length; x < len; x++)
 	{
 		game.quadTree.findObjects(obj = [], objects[x]);
-		
+
 		for(y = 0, length = obj.length; y < length; y++)
 		{
 			if (objects[x].collidableWith === obj[y].type &&
 				(objects[x].x < obj[y].x + obj[y].width &&
 			     objects[x].x + objects[x].width > obj[y].x &&
 				 objects[x].y < obj[y].y + obj[y].height &&
-				 objects[x].y + objects[x].height > obj[y].y) && objects[x].type!="enemyBoss") 
+				 objects[x].y + objects[x].height > obj[y].y) && objects[x].type!="enemyBoss")
 				 {
 				objects[x].isColliding = true;
 				obj[y].isColliding = true;

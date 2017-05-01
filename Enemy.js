@@ -50,14 +50,14 @@ function Enemy()
 			this.y = 0;
 			this.x = Math.floor((Math.random() * 650) + 100);
 		}
-		
+
 		if(!this.isColliding)
 		{
 		    this.context.drawImage(imageRepository.enemy, this.x, this.y);
-		
+
 
 		// Enemy has a chance to shoot every movement
-		
+
 		if(this.y > -5 && this.y < 525) //If enemy ship is within canvas
 		{
 			if (Math.floor(Math.random()*100) < percentFire)
@@ -66,7 +66,7 @@ function Enemy()
 			}
 			return false;
 		}
-			
+
 		}
 		else
 			{
@@ -79,6 +79,7 @@ function Enemy()
 	this.fire = function()
 	{
 		game.enemyBulletPool.get(this.x+this.width/2, this.y+this.height, -10);
+		game.enemyLaserSound.play();
 	}
 
 
@@ -145,7 +146,7 @@ function EnemyBoss() {
         else if (this.y >= 400 && this.y >= 540) {
             this.speedY = -.5;
         }
-       
+
         if (!this.isColliding) {
             this.context.drawImage(imageRepository.enemyBoss, this.x, this.y);
 
@@ -165,14 +166,15 @@ function EnemyBoss() {
             return true;
         }
 
-        
-        
+
+
     };
 
 
     //Fire the bullet
     this.fire = function () {
         game.enemyBulletPool.get(this.x + 70 + Math.random()*this.width/2 , this.y+this.height-100, 10);
+        game.enemyBossLaserSound.play();
     }
 
 
