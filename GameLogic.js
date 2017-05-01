@@ -1,6 +1,6 @@
 //Initialize Game and start it
 var game = new Game();
-var percentFireCon = .1;
+var percentFireCon = 0;
 var rightHit = false
 var leftHit = false;
 var midHit = false;
@@ -15,27 +15,36 @@ function init()
 }
 
 function setEasy() {
+	if(!game.ship.isAlive == false)
+	{
 	document.getElementById('medium-mode').style.display = "block";
 	setTimeout(function(){
              document.getElementById('medium-mode').style.display = "none";
              },1500);
     percentFireCon = .25;
+	}
 }
 
 function setMed() {
+	if(!game.ship.isAlive == false)
+	{
 	document.getElementById('hard-mode').style.display = "block";
 	setTimeout(function(){
              document.getElementById('hard-mode').style.display = "none";
              },1500);
     percentFireCon = 1;
+	}
 }
 
 function setHard() {
+	if(!game.ship.isAlive == false)
+	{
 	document.getElementById('jedi-mode').style.display = "block";
 	setTimeout(function(){
              document.getElementById('jedi-mode').style.display = "none";
              },1500);
     percentFireCon = 3;
+	}
 }
 
  //Object to hold all of our images. This ensures all objects are only created once.
