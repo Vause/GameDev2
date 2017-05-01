@@ -556,7 +556,7 @@ function animate()
             game.musicSound.volume -= .02;
         }
 
-        
+
 
 	}
 	else if (countdown == 0 && game.ship.isAlive == true) {
@@ -565,7 +565,7 @@ function animate()
 
 	else if (game.ship.isAlive == false) {
 	    game.musicSound.pause();
-	    document.getElementById('game-over').style.display = "block";	    
+	    document.getElementById('game-over').style.display = "block";
 	}
 }
 
