@@ -561,6 +561,7 @@ function animate()
 	}
 	else if (countdown == 0 && game.ship.isAlive == true) {
 	    document.getElementById('you-win').style.display = "block";
+	    game.musicSound.pause();
 	}
 
 	else if (game.ship.isAlive == false) {
