@@ -1,6 +1,6 @@
 //Initialize Game and start it
 var game = new Game();
-var percentFireCon = 0;
+var percentFireCon = .1;
 var rightHit = false
 var leftHit = false;
 var midHit = false;
@@ -380,8 +380,8 @@ function Game()
 		this.ihaveyounowSound.volume = 1;
 		this.intensifySound.volume = 1;
 		this.lightspeedSound.volume = 1;
-		this.enemyLaserSound.volume = .5;
-		this.enemyBossLaserSound.volume = .5;
+		this.enemyLaserSound.volume = .4;
+		this.enemyBossLaserSound.volume = .8;
 		this.theForceSound.volume = 1;
 		this.targetsSound.play();
 		this.bgCanvas = document.getElementById('background');
@@ -563,8 +563,9 @@ function animate()
 	    document.getElementById('you-win').style.display = "block";
 	}
 
-	else if(game.ship.isAlive == false){
-		document.getElementById('game-over').style.display = "block";
+	else if (game.ship.isAlive == false) {
+	    game.musicSound.pause();
+	    document.getElementById('game-over').style.display = "block";	    
 	}
 }
 
