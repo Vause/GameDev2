@@ -17,7 +17,7 @@ function Ship()
 
 	this.drawEscape = function () {	    
 	    this.context.clearRect(this.x, this.y, this.width, this.height);
-	    this.y -= 10;
+	    this.y -= 20;
 	    this.context.drawImage(imageRepository.spaceship, this.x, this.y);
 	}
 

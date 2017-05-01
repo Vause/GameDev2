@@ -8,6 +8,7 @@ var playerScore = 0;
 var bossIsAlive = false;
 var countdown = 3600;
 var escapeSequence = false;
+var forceSoundBool = false;
 
 function init()
 {
@@ -66,6 +67,7 @@ var imageRepository = new function()
     this.rightmidreddisplay = new Image();
     this.rightreddisplay = new Image();
     this.enemyBoss = new Image();
+	this.gameOver = new Image();
 
 	// Ensure all images have loaded before starting the game
 	var numImages = 6;
@@ -102,6 +104,10 @@ var imageRepository = new function()
     {
         imageLoaded();
     }
+	this.gameOver.onload = function()
+	{
+		imageLoaded();
+	}
 
 	// Set images source
 	this.background.src = "img/bg.png";
@@ -118,6 +124,7 @@ var imageRepository = new function()
     this.rightmidreddisplay.src = "img/HPDisp/RightMidRed.png";
     this.rightreddisplay.src = "img/HPDisp/RightRed.png";
     this.enemyBoss.src = "img/StarDestroyer.png";
+	this.gameOver.src = "img/GameOver.png";
 
 }
 
@@ -363,6 +370,9 @@ function Game()
 		this.ihaveyounowSound = document.getElementById("ihaveyounow");
 		this.targetsSound = document.getElementById("targets");
 		this.theForceSound = document.getElementById("theForce");
+		this.explosionSound = document.getElementById("explosion");
+		this.explosionSound2 = document.getElementById("explosion");
+		this.explosionSound3 = document.getElementById("explosion");
 		this.musicSound.play();
 		this.musicSound.volume = .6;
 		this.shipLaserSound.volume = .6;
@@ -497,7 +507,7 @@ function animate()
 	game.quadTree.insert(game.enemyBossPool.getPool());
 	detectCollision();
 
-	if (game.ship.isAlive == true) {
+	if (game.ship.isAlive == true && countdown > 0) {
 	    countdown -= 1;
         requestAnimFrame( animate );
         game.background.draw();
@@ -530,7 +540,8 @@ function animate()
         if (bossIsAlive == true) {
 	        game.enemyBossPool.animate();
         }
-        if (playerScore == 20) {
+        if (playerScore == 20 && forceSoundBool == false) {
+            forceSoundBool = true;
             game.theForceSound.play();
         }
         if (countdown == 360) {
@@ -545,7 +556,11 @@ function animate()
             game.musicSound.volume -= .02;
         }
 
+        
 
+	}
+	else if (countdown == 0 && game.ship.isAlive == true) {
+	    document.getElementById('you-win').style.display = "block";
 	}
 
 	else if(game.ship.isAlive == false){
