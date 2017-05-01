@@ -34,7 +34,7 @@ function Enemy()
 	this.draw = function()
 	{
 	    percentFire = percentFireCon;
-		this.context.clearRect(this.x-1, this.y, this.width+1, this.height); //Dirty Rectangle
+		this.context.clearRect(this.x, this.y, this.width, this.height); //Dirty Rectangle
 		this.y += this.speedY;
 		if (this.x <= this.leftEdge) {
 			this.speedX = this.speed;
