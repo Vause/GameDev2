@@ -15,17 +15,26 @@ function init()
 }
 
 function setEasy() {
-    alert("easy");
+	document.getElementById('medium-mode').style.display = "block";
+	setTimeout(function(){
+             document.getElementById('medium-mode').style.display = "none";
+             },1500);
     percentFireCon = .25;
 }
 
 function setMed() {
-    alert("med");
+	document.getElementById('hard-mode').style.display = "block";
+	setTimeout(function(){
+             document.getElementById('hard-mode').style.display = "none";
+             },1500);
     percentFireCon = 1;
 }
 
 function setHard() {
-    alert("hard");
+	document.getElementById('jedi-mode').style.display = "block";
+	setTimeout(function(){
+             document.getElementById('jedi-mode').style.display = "none";
+             },1500);
     percentFireCon = 3;
 }
 
@@ -47,6 +56,7 @@ var imageRepository = new function()
     this.rightmidreddisplay = new Image();
     this.rightreddisplay = new Image();
     this.enemyBoss = new Image();
+	this.gameOver = new Image();
 
 	// Ensure all images have loaded before starting the game
 	var numImages = 6;
@@ -83,6 +93,10 @@ var imageRepository = new function()
     {
         imageLoaded();
     }
+	this.gameOver.onload = function()
+	{
+		imageLoaded();
+	}
 
 	// Set images source
 	this.background.src = "img/bg.png";
@@ -99,6 +113,7 @@ var imageRepository = new function()
     this.rightmidreddisplay.src = "img/HPDisp/RightMidRed.png";
     this.rightreddisplay.src = "img/HPDisp/RightRed.png";
     this.enemyBoss.src = "img/StarDestroyer.png";
+	this.gameOver.src = "img/GameOver.png";
 
 }
 
@@ -442,7 +457,10 @@ function Game()
 		this.ship.draw();
 		animate();
 	};
+	
 }
+
+
 
 
  //Animation loop. Calls RequestAnimFrame to optimize game loop.
@@ -490,7 +508,7 @@ function animate()
         }
 	}
 	else if(game.ship.isAlive == false){
-		alert("Game Over");
+		document.getElementById('game-over').style.display = "block";
 	}
 }
 

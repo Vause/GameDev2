@@ -40,6 +40,59 @@
 							font-family: Helvetica, sans-serif;
 							cursor: default;
 			}
+			
+			.game-over {
+				position: absolute;
+				top: 200px;
+				left: 300px;
+				color: #FF7F00;
+				font-family: Helvetica, sans-serif;
+				font-size: 30px;
+				cursor: default;
+				display: none;
+			}
+			.game-over span {
+			font-size: 20px;
+			cursor: pointer;
+			position: relative;
+			left: 50px;
+			}
+			.game-over span:hover {
+				color: #FFD700;
+			}
+			.medium-mode {
+			position: absolute;
+				top: 200px;
+				left: 300px;
+				font-weight: bold;
+				color: #228B22;
+				font-family: Helvetica, sans-serif;
+				font-size: 30px;
+				cursor: default;
+				display: none;
+			}
+			.hard-mode {
+			position: absolute;
+				top: 200px;
+				left: 315px;
+				font-weight: bold;
+				color: #FF8C00;
+				font-family: Helvetica, sans-serif;
+				font-size: 30px;
+				cursor: default;
+				display: none;
+			}
+			.jedi-mode {
+			position: absolute;
+				top: 200px;
+				left: 315px;
+				font-weight: bold;
+				color: #8B0000;
+				font-family: Helvetica, sans-serif;
+				font-size: 30px;
+				cursor: default;
+				display: none;
+			}
 		</style>
 	</head>
 	<body>
@@ -59,6 +112,10 @@
 		</canvas>
 		<div class="score">SCORE: <span id="score"></span></div>
 		<div class="seconds">HYPERDRIVE READY IN: <span id="seconds"></span></div>
+		<div class="game-over" id="game-over">GAME OVER<p><span onClick="window.location.reload()">Restart</span></p></div>
+		<div class="medium-mode" id="medium-mode">Medium Mode</div>
+		<div class="hard-mode" id="hard-mode">Hard Mode</div>
+		<div class="jedi-mode" id="jedi-mode">Jedi Mode</div>
 		<script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
 		<script src="GameLogic.js"></script>
 		<script src="Background.js"></script>
