@@ -67,6 +67,7 @@ var imageRepository = new function()
     this.rightmidreddisplay = new Image();
     this.rightreddisplay = new Image();
     this.enemyBoss = new Image();
+    this.background2 = new Image();
 
 	// Ensure all images have loaded before starting the game
 	var numImages = 6;
@@ -119,6 +120,7 @@ var imageRepository = new function()
     this.rightmidreddisplay.src = "img/HPDisp/RightMidRed.png";
     this.rightreddisplay.src = "img/HPDisp/RightRed.png";
     this.enemyBoss.src = "img/StarDestroyer.png";
+    this.background2.src = "img/bg2.png";
 
 }
 
@@ -192,6 +194,7 @@ function Game()
 		this.mainCanvas = document.getElementById('main');
 		this.hpCanvas = document.getElementById('hpdisp');
 
+
 		// Test to see if canvas is supported. Only need to check one canvas
 		if (this.bgCanvas.getContext)
 		{
@@ -200,6 +203,7 @@ function Game()
 			this.mainContext = this.mainCanvas.getContext('2d');
 			this.hpContext = this.mainCanvas.getContext('2d');
 			this.enemyBossContext = this.enemyBossCanvas.getContext('2d');
+			this.mainContext.drawImage(imageRepository.background2, 810, 0);
 
 			// Initialize objects to contain their context and canvas information
 			Background.prototype.context = this.bgContext;

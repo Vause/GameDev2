@@ -131,7 +131,7 @@ function EnemyBoss() {
     //Move enemy
     this.draw = function () {
         percentFire = 10;
-        this.context.clearRect(this.x - 1, this.y, this.width + 1, this.height); //Dirty Rectangle
+        this.context.clearRect(this.x, this.y, this.width, this.height); //Dirty Rectangle
         this.y += this.speedY;
         this.x += this.speedX;
         if (this.x <= -100) {
@@ -147,9 +147,7 @@ function EnemyBoss() {
         else if (this.y >= 400 && this.y >= 540) {
             this.speedY = -.5;
         }
-
-        if (!this.isColliding) {
-            this.context.drawImage(imageRepository.enemyBoss, this.x, this.y);
+        this.context.drawImage(imageRepository.enemyBoss, this.x, this.y);
 
 
             // Enemy has a chance to shoot every movement
@@ -161,12 +159,7 @@ function EnemyBoss() {
                 }
                 return false;
             }
-
-        }
-        else {
             return true;
-        }
-
 
 
     };
