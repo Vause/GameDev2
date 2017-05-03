@@ -2,7 +2,7 @@
  //Ship object that player controls. Drawn on ship canvas.
 function Ship()
 {
-	this.speed = 3;
+	this.speed = 5;
 	this.bulletPool = new Pool(30);
 	this.bulletPool.init("bullet");
 	var fireRate = 15;
@@ -15,7 +15,7 @@ function Ship()
 		this.context.drawImage(imageRepository.spaceship, this.x, this.y); //Dirty Rectangle
 	};
 
-	this.drawEscape = function () {	    
+	this.drawEscape = function () {
 	    this.context.clearRect(this.x, this.y, this.width, this.height);
 	    this.y -= 20;
 	    this.context.drawImage(imageRepository.spaceship, this.x, this.y);

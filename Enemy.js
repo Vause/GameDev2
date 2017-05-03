@@ -159,7 +159,6 @@ function EnemyBoss() {
                 }
                 return false;
             }
-            return true;
 
 
     };
