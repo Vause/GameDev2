@@ -104,6 +104,14 @@ var imageRepository = new function()
     {
         imageLoaded();
     }
+    this.enemyBoss.onload = function()
+    {
+        imageLoaded();
+    }
+	this.background2.onload = function()
+    {
+        imageLoaded();
+    }
 
 	// Set images source
 	this.background.src = "img/bg.png";
